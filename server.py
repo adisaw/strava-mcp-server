@@ -11,7 +11,7 @@ STRAVA_REFRESH_TOKEN = os.getenv("STRAVA_REFRESH_TOKEN")
 
 BASE_URL = "https://www.strava.com/api/v3"
 
-mcp = FastMCP("strava", description="MCP server for Strava API")
+mcp = FastMCP("strava")
 
 _access_token: str | None = None
 
@@ -21,7 +21,7 @@ async def get_access_token() -> str:
     global _access_token
     async with httpx.AsyncClient() as client:
         resp = await client.post(
-            "https://www.strava.com/oauth/token",
+            "https://www.strava.com/api/v3/oauth/token",
             data={
                 "client_id": STRAVA_CLIENT_ID,
                 "client_secret": STRAVA_CLIENT_SECRET,
