@@ -136,6 +136,80 @@ async def get_athlete_clubs(page: int = 1, per_page: int = 30) -> list:
 
 
 @mcp.tool()
+async def get_activity_comments(
+    activity_id: int, page_size: int = 30, after_cursor: str | None = None
+) -> list:
+    """Get comments on a specific activity.
+
+    Args:
+        activity_id: The ID of the activity
+        page_size: Number of items per page (default 30)
+        after_cursor: Cursor for pagination (omit for first page)
+    """
+    params = {"page_size": page_size}
+    if after_cursor:
+        params["after_cursor"] = after_cursor
+    return await strava_get(f"/activities/{activity_id}/comments", params=params)
+
+
+@mcp.tool()
+async def get_starred_segments(page: int = 1, per_page: int = 30) -> list:
+    """Get the authenticated athlete's starred segments.
+
+    Args:
+        page: Page number (default 1)
+        per_page: Number of items per page (default 30)
+    """
+    return await strava_get(
+        "/segments/starred", params={"page": page, "per_page": per_page}
+    )
+
+
+@mcp.tool()
+async def get_segment(segment_id: int) -> dict:
+    """Get detailed information about a specific segment.
+
+    Args:
+        segment_id: The ID of the segment
+    """
+    return await strava_get(f"/segments/{segment_id}")
+
+
+@mcp.tool()
+async def get_segment_effort(effort_id: int) -> dict:
+    """Get a specific segment effort by ID.
+
+    Args:
+        effort_id: The ID of the segment effort
+    """
+    return await strava_get(f"/segment_efforts/{effort_id}")
+
+
+@mcp.tool()
+async def explore_segments(
+    south_west_lat: float,
+    south_west_lng: float,
+    north_east_lat: float,
+    north_east_lng: float,
+    activity_type: str = "running",
+) -> dict:
+    """Find segments in a given area.
+
+    Args:
+        south_west_lat: South-west corner latitude of the bounding box
+        south_west_lng: South-west corner longitude of the bounding box
+        north_east_lat: North-east corner latitude of the bounding box
+        north_east_lng: North-east corner longitude of the bounding box
+        activity_type: 'running' or 'riding' (default 'running')
+    """
+    bounds = f"{south_west_lat},{south_west_lng},{north_east_lat},{north_east_lng}"
+    return await strava_get(
+        "/segments/explore",
+        params={"bounds": bounds, "activity_type": activity_type},
+    )
+
+
+@mcp.tool()
 async def get_routes(page: int = 1, per_page: int = 30) -> list:
     """Get the authenticated athlete's saved routes.
 
