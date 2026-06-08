@@ -102,6 +102,21 @@ async def get_activity_laps(activity_id: int) -> list:
 
 
 @mcp.tool()
+async def get_activity_kudos(activity_id: int, page: int = 1, per_page: int = 30) -> list:
+    """Get the athletes who gave kudos on an activity.
+
+    Args:
+        activity_id: The ID of the activity
+        page: Page number (default 1)
+        per_page: Number of items per page (default 30)
+    """
+    return await strava_get(
+        f"/activities/{activity_id}/kudos",
+        params={"page": page, "per_page": per_page},
+    )
+
+
+@mcp.tool()
 async def get_routes(page: int = 1, per_page: int = 30) -> list:
     """Get the authenticated athlete's saved routes.
 
