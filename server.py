@@ -55,6 +55,12 @@ async def get_athlete() -> dict:
 
 
 @mcp.tool()
+async def get_athlete_zones() -> dict:
+    """Get the authenticated athlete's heart rate and power zones."""
+    return await strava_get("/athlete/zones")
+
+
+@mcp.tool()
 async def get_athlete_stats(athlete_id: int) -> dict:
     """Get all-time, year-to-date, and recent stats for an athlete.
 
