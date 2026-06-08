@@ -17,32 +17,43 @@ An MCP (Model Context Protocol) server that provides access to the Strava API �
 
 ### 1. Create a Strava API App
 
-Go to [strava.com/settings/api](https://www.strava.com/settings/api) and create an application.
+Go to [strava.com/settings/api](https://www.strava.com/settings/api) and create an application. Note your **Client ID** and **Client Secret**.
 
-### 2. Get a Refresh Token
+### 2. Get a Refresh Token (one-time setup)
 
-Authorize your app with the required scopes:
+The server needs a refresh token to authenticate with Strava on your behalf. You only need to do this once.
+
+**a)** Open this URL in your browser (replace `YOUR_CLIENT_ID`):
 
 ```
 https://www.strava.com/oauth/authorize?client_id=YOUR_CLIENT_ID&response_type=code&redirect_uri=http://localhost&scope=read,activity:read_all&approval_prompt=auto
 ```
 
-Then exchange the code for tokens:
+**b)** After authorizing, you'll be redirected to `http://localhost?code=SOME_CODE`. Copy the `code` value from the URL.
+
+**c)** Exchange the code for a refresh token:
 
 ```bash
 curl -X POST https://www.strava.com/oauth/token \
   -d client_id=YOUR_CLIENT_ID \
   -d client_secret=YOUR_CLIENT_SECRET \
-  -d code=AUTH_CODE \
+  -d code=SOME_CODE \
   -d grant_type=authorization_code
 ```
+
+The response will include a `refresh_token` — save it for the next step.
 
 ### 3. Configure Environment
 
 ```bash
 cp .env.example .env
-# Edit .env with your credentials
 ```
+
+Edit `.env` with the credentials from the previous steps:
+
+- `STRAVA_CLIENT_ID` — from your app on [strava.com/settings/api](https://www.strava.com/settings/api)
+- `STRAVA_CLIENT_SECRET` — from the same app settings page
+- `STRAVA_REFRESH_TOKEN` — from the token exchange response in step 2
 
 ### 4. Install Dependencies
 
@@ -50,21 +61,35 @@ cp .env.example .env
 pip install -r requirements.txt
 ```
 
-### 5. Run
+### 5. Add to Your MCP Client
 
-```bash
-python server.py
-```
+Add the server to your MCP client config. The client will automatically start and manage the server — no need to run it manually.
 
-## MCP Client Configuration
+#### GitHub Copilot CLI
 
-Add to your MCP client config (e.g., Claude Desktop, Copilot CLI):
+Add to `~/.copilot/mcp-config.json`:
 
 ```json
 {
   "mcpServers": {
     "strava": {
-      "command": "python",
+      "command": "/path/to/strava-mcp-server/venv/bin/python",
+      "args": ["/path/to/strava-mcp-server/server.py"],
+      "cwd": "/path/to/strava-mcp-server"
+    }
+  }
+}
+```
+
+#### Claude Desktop
+
+Add to your Claude Desktop config:
+
+```json
+{
+  "mcpServers": {
+    "strava": {
+      "command": "/path/to/strava-mcp-server/venv/bin/python",
       "args": ["/path/to/strava-mcp-server/server.py"],
       "env": {
         "STRAVA_CLIENT_ID": "your_client_id",
@@ -75,6 +100,8 @@ Add to your MCP client config (e.g., Claude Desktop, Copilot CLI):
   }
 }
 ```
+
+> **Note:** Replace `/path/to/strava-mcp-server` with the actual path on your machine. Use the virtualenv Python (`venv/bin/python`) to ensure dependencies are available.
 
 ## License
 
