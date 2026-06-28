@@ -4,7 +4,7 @@
   <img src="icon.png" alt="Activity MCP Server" width="300">
 </p>
 
-An MCP (Model Context Protocol) server that provides access to the Strava API — query your activities, stats, routes, and more from any MCP-compatible client.
+An MCP (Model Context Protocol) server that uses the Strava API to let you query your activities, stats, routes, and more from any MCP-compatible client.
 
 ## Tools
 
