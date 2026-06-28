@@ -6,6 +6,10 @@
 
 An MCP (Model Context Protocol) server that uses the Strava API to let you query your activities, stats, routes, and more from any MCP-compatible client.
 
+## Demo
+
+https://github.com/adisaw/strava-mcp-server/blob/main/Strava%20MCP%20Server%20Recording.mov
+
 ## Tools
 
 | Tool | Description |
