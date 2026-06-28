@@ -8,10 +8,18 @@ An MCP (Model Context Protocol) server that provides access to the Strava API â€
 |------|-------------|
 | `get_athlete` | Get your profile information |
 | `get_athlete_stats` | Get all-time, YTD, and recent stats |
+| `get_athlete_zones` | Get heart rate and power zones |
+| `get_athlete_clubs` | List clubs you're a member of |
 | `get_activities` | List your activities (paginated) |
 | `get_activity` | Get detailed activity data (splits, laps, segments) |
 | `get_activity_laps` | Get laps for a specific activity |
+| `get_activity_comments` | Get comments on an activity |
+| `get_activity_kudos` | Get athletes who gave kudos on an activity |
 | `get_routes` | List your saved routes |
+| `get_segment` | Get detailed info about a segment |
+| `get_segment_effort` | Get a specific segment effort |
+| `get_starred_segments` | List your starred segments |
+| `explore_segments` | Find segments in a geographic area |
 
 ## Setup
 
