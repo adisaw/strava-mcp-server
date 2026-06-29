@@ -8,7 +8,7 @@ An MCP (Model Context Protocol) server that uses the Strava API to let you query
 
 ## Demo
 
-<video src="https://github.com/adisaw/strava-mcp-server/raw/main/Strava%20MCP%20Server%20Recording.mov" controls width="100%"></video>
+[![Strava MCP Server Demo](https://img.youtube.com/vi/ITxF5uury_E/maxresdefault.jpg)](https://youtu.be/ITxF5uury_E)
 
 ## Tools
 
